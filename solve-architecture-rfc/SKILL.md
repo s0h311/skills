@@ -21,11 +21,14 @@ Present a numbered list of open RFCs. Ask: "Which RFC would you like to solve?"
 
 ### 2. Frame the problem space
 
-Fetch the full issue body:
+Fetch the full issue body and comments in parallel:
 
-````
+```
 gh issue view <number> --json body
-``` Write a user-facing explanation:
+gh issue view <number> --comments --json comments
+```
+
+Write a user-facing explanation:
 
 - The constraints any new interface must satisfy
 - The dependencies it relies on (see dependency categories below)
@@ -68,11 +71,11 @@ Discuss until the user confirms a solution (or a hybrid). Do not proceed until t
 
 Post the agreed design as a GitHub comment:
 
-````
+```
 
 gh issue comment <number> --body "..."
 
-````
+```
 
 Comment template:
 
@@ -101,7 +104,7 @@ Comment template:
 
 - **New boundary tests**: [behaviors to verify at the interface]
 - **Old tests to delete**: [shallow tests that become redundant]
-````
+```
 
 ---
 
