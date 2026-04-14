@@ -1,6 +1,6 @@
 ---
 name: solve-architecture-rfc
-description: Fetch open architecture RFCs from GitHub, design 3 radically different interface solutions for a chosen one using parallel sub-agents, discuss with user, then comment the agreed solution on the issue. Use when user wants to resolve an architectural RFC or design a module interface.
+description: Fetch open architecture RFCs from GitHub, design interface solutions for a chosen one using parallel sub-agents (1 for trivial problems, 3 for complex ones), discuss with user, then comment the agreed solution on the issue. Use when user wants to resolve an architectural RFC or design a module interface.
 ---
 
 # Solve Architecture RFC
@@ -33,9 +33,14 @@ gh issue view <number> --json body
 
 Show this, then immediately proceed to Step 3. The user reads while sub-agents work.
 
-### 3. Design multiple interfaces in parallel
+### 3. Design interface solutions
 
-Spawn 3 sub-agents in parallel using the Agent tool with subagent_type=Plan. Give each a different design constraint and the full problem context (modules, coupling, dependency category, what must be hidden). Each must output:
+**First, assess problem complexity:**
+
+- **Trivial** — single module, one obvious solution, no meaningful trade-offs between approaches (e.g., "wrap this one function"). Spawn **1 sub-agent**.
+- **Complex** — touches multiple system parts, real trade-offs exist, or multiple design philosophies apply. Spawn **3 sub-agents in parallel**.
+
+Each sub-agent uses the Agent tool and receives the full problem context (modules, coupling, dependency category, what must be hidden). Each must output:
 
 1. Interface signature (types, methods, params)
 2. Usage example
@@ -43,11 +48,13 @@ Spawn 3 sub-agents in parallel using the Agent tool with subagent_type=Plan. Giv
 4. Dependency strategy
 5. Trade-offs
 
-Constraints per agent:
+**For complex problems**, give each agent a different constraint:
 
 - **Agent 1**: "Minimize the interface — aim for 1–3 entry points max"
 - **Agent 2**: "Maximize flexibility — support many use cases and extension"
 - **Agent 3**: "Optimize for the most common caller — make the default case trivial"
+
+**For trivial problems**, give the single agent the constraint that best fits the obvious solution.
 
 ### 4. Compare and recommend
 
