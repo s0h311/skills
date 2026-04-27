@@ -83,7 +83,7 @@ Do NOT close or modify any parent issue.
 After all issues are created, record blocking relationships in one command where each key is a blocked issue and values are its blockers:
 
 ```
-matrix issues dependencies add '{"184": [183, 182], "185": [184]}'
+pnpm matrix issues dependencies add '{"184": [183, 182], "185": [184]}'
 ```
 
 Skip if there are no dependencies.
